@@ -18,35 +18,38 @@ dotenv.config();
 const app = express();
 const server = http.createServer(app);
 
-/* ✅ Allowed origins (local + production) */
+/* ✅ FRONTEND origins only */
 const allowedOrigins = [
-    "https://food-delivery-vingo.onrender.com",
+  "http://localhost:5173",
+  "https://food-delivery-vingo-woad.vercel.app"
 ];
 
 /* ✅ Express CORS */
 app.use(
   cors({
     origin: function (origin, callback) {
+      // allow requests like Postman / server-to-server
       if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
+        console.log("Blocked by CORS:", origin);
         callback(new Error("Not allowed by CORS"));
       }
     },
-    credentials: true,
+    credentials: true
   })
 );
 
 app.use(express.json());
 app.use(cookieParser());
 
-/* ✅ Socket.IO with proper CORS */
+/* ✅ Socket.IO CORS */
 const io = new Server(server, {
   cors: {
     origin: allowedOrigins,
-    credentials: true,
     methods: ["GET", "POST"],
-  },
+    credentials: true
+  }
 });
 
 app.set("io", io);
@@ -66,7 +69,7 @@ app.use("/api/order", orderRouter);
 /* ✅ Socket handler */
 socketHandler(io);
 
-/* ✅ Render-safe PORT */
+/* ✅ Start server */
 const PORT = process.env.PORT || 8000;
 
 server.listen(PORT, async () => {
