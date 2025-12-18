@@ -6,3 +6,9 @@ npm-debug.log
 # OS
 .DS_Store
 Thumbs.db
+
+.env
+.env.local
+.env.development
+.env.production
+
