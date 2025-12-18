@@ -20,8 +20,7 @@ const server = http.createServer(app);
 
 /* ✅ Allowed origins (local + production) */
 const allowedOrigins = [
-  "http://localhost:5173",
-  "https://food-delivery-vingo.onrender.com",
+    "https://food-delivery-vingo.onrender.com",
 ];
 
 /* ✅ Express CORS */
